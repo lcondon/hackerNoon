@@ -5,6 +5,12 @@ import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 import { connect } from 'react-redux';
 import { searchArticles } from '../../actions/searchArticles';
 import { listArticles } from '../../actions/listArticles';
@@ -49,9 +55,22 @@ const styles = theme => ({
   }
 });
 
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
+
 class ArticleList extends React.Component {
   state = {
-    searchTerm: ''
+    searchTerm: '',
+    open: false
+  };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
   searchArticles = event => {
@@ -117,9 +136,34 @@ class ArticleList extends React.Component {
                   className={classes.button}
                   id="submitCommentBtn"
                   variant="outlined"
-                  onClick={this.searchArticles}>
+                  onClick={
+                    this.state.searchTerm
+                      ? this.searchArticles
+                      : this.handleClickOpen
+                  }>
                   Search
                 </Button>
+                <Dialog
+                  open={this.state.open}
+                  TransitionComponent={Transition}
+                  keepMounted
+                  onClose={this.handleClose}
+                  aria-labelledby="alert-dialog-slide-title"
+                  aria-describedby="alert-dialog-slide-description">
+                  <DialogTitle id="alert-dialog-slide-title">
+                    Woops!
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                      You must enter a search term in order to get results back.
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.handleClose} color="primary">
+                      Ok
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </Grid>
             </Grid>
           </Paper>
