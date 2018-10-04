@@ -18,10 +18,6 @@ class App extends Component {
     searchTerm: ''
   };
 
-  simpleAction = event => {
-    this.props.simpleAction();
-  };
-
   searchArticles = event => {
     this.props.searchArticles(this.state.searchTerm);
   };
