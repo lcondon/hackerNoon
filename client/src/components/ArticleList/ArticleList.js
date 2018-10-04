@@ -60,10 +60,13 @@ function Transition(props) {
 }
 
 class ArticleList extends React.Component {
-  state = {
-    searchTerm: '',
-    open: false
-  };
+  constructor() {
+    super();
+    this.state = {
+      searchTerm: '',
+      open: false
+    };
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -88,6 +91,16 @@ class ArticleList extends React.Component {
     this.setState({
       [name]: event.target.value
     });
+  };
+
+  keyPress = e => {
+    if (e.keyCode === 13) {
+      if (this.state.searchTerm) {
+        this.searchArticles();
+      } else {
+        this.handleClickOpen();
+      }
+    }
   };
 
   renderList() {
@@ -116,13 +129,12 @@ class ArticleList extends React.Component {
               <Grid item xs={12} sm={10}>
                 <TextField
                   id="standard-multiline-flexible"
-                  multiline
-                  rowsMax="4"
                   style={{ margin: 8 }}
                   label="Search"
                   fullWidth
                   margin="normal"
                   name="searchTerm"
+                  onKeyDown={this.keyPress}
                   value={this.state.searchTerm}
                   onChange={this.handleChange('searchTerm')}
                   // variant="outlined"
