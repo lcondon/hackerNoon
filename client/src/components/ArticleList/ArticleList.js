@@ -76,7 +76,7 @@ class ArticleList extends React.Component {
     return this.props.list.arr.map(article => {
       return (
         <Paper className={classes.paper} key={article.objectID}>
-          <a href={article.url}>
+          <a href={article.url} target="_blank">
             <h1 style={{ textAlign: 'center' }} className={classes.title}>
               {article.title}
             </h1>
