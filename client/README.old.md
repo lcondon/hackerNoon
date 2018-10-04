@@ -1,1 +1,1 @@
-# hackerNoon
+# hackernews
